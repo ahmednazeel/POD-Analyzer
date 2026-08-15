@@ -1,9 +1,14 @@
 # What We Made in This Commit
 ## IN => /scraperServer 
-In this commit we started to add a route imafstructures and the folders buy building a mock route with a GET /api/scrape and when the error
-appear this means that the infstructions ready to work with the clean, realible code to this is the commit and 
-also added a types folder includes the express Types instead in the controller parameter (req,res) we each time pass the extracted Request,Response From Express we build it to be sharing between files, we also add a routes.ts file which will be responsible about appending the routes instead of make them in the server function and make it not readable, we also added the unified Response for all the contollers so in the 
-utils/endpointUnifiedRespnse.ts file we get parameter as like the (res Pointer, isSuccess, .etc) and build the response in this function  and the other things as like controller folder, routes folder inside the api and this is normal, understandable
+In this commit, we started building the route infrastructure and folder structure by creating a mock route with GET /api/scrape. The purpose of this mock route is to validate that the infrastructure is correctly set up and ready to work with clean, reliable code.
+
+We also added a types folder to centralize the Express types. Instead of extracting Request and Response from Express separately in every controller, we created shared types that can be reused across the application.
+
+We also added a routes.ts file responsible for registering and composing the application routes. This keeps the server entry point clean and prevents route definitions from being directly placed inside the server function, making the application easier to read and maintain.
+
+In addition, we introduced a unified response utility in utils/endpointUnifiedResponse.ts. It receives parameters such as the response object, success status, and other response data, then builds a consistent response format that can be reused across all controllers.
+
+Finally, we added the controller and routes folders inside the API structure. These follow the project's standard organization and keep responsibilities separated in a clear and understandable way.
 ---
 
 # Project Structure
