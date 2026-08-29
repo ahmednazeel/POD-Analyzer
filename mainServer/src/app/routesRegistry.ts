@@ -1,6 +1,7 @@
 import type { Application } from "express"
+import authRouter from '../endpoints/routes/auth.routes.js'
+
 export const routesRegistry = (server:Application) => {
-    server.get("/healthy", (req,res)=> {
-        res.send("Sever is Running")
-    })
+
+    server.use("api/auth",authRouter)
 }

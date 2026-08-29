@@ -1,76 +1,63 @@
-# What Did I Do in This Commit?
+# Commit Description
 
-## Change in Direction
-
-I discovered that Etsy provides an **Open API V3**, which allows us to retrieve product listing information through an official API.
-
-Because of this, I decided to change the initial implementation strategy. Instead of building the Etsy scraper first, I will focus on implementing the **main MVP** using the official Etsy API.
-
-This allows us to focus on the core product and get the MVP ready faster without spending time building and maintaining a scraper for data that is already available through an official API.
-
-The scraper is **not being removed from the overall plan**. It will become part of a later stage when we expand the market analysis to additional platforms such as **Redbubble, Shopify, and other marketplaces**.
-
-### Current Direction
-
-```text
-MVP
- │
- └── Etsy Open API V3
-        │
-        └── Build & validate the core product
-                    │
-                    ▼
-              First MVP Release
-                    │
-                    ▼
-          Expand Market Analysis
-                    │
-          ┌─────────┼─────────┐
-          ▼         ▼         ▼
-       Etsy    Redbubble   Shopify
-                    │
-                    ▼
-             Additional Data
-                Sources
-```
+## Overview
+This commit introduces the foundational structure for our backend project.  
+We created dedicated folders and utility files to separate responsibilities, ensuring scalability and maintainability.  
+It also includes the first half of the authentication workflow (registration controller and mock routes), with the remaining auth features to be completed in the next commit.
 
 ---
 
-## New Project Structure
-
-```text
-mainServer/
-└── src/
-    ├── app/
-    │   ├── server.ts
-    │   └── routesRegistry.ts
-    │
-    └── configs/
-        └── settings.ts
-```
-
-## File Responsibilities
-
-### `server.ts`
-
-Responsible for **server initialization** and starting the application.
-
-### `routesRegistry.ts`
-
-Responsible for **registering and organizing all application routes** in one central place.
-
-### `settings.ts`
-
-Responsible for **loading configuration values from environment variables** (`.env`) and exposing them through a centralized configuration object.
+## 🔧 Configurations
+- **dbConnecting.ts** → Handles MongoDB connection logic.
+- **mailTransporter.ts** → Configures Nodemailer transporter for email sending.
 
 ---
 
-## Why This Structure?
+## 📂 Project Structure
+- **endpoints/** → Contains controllers and routes.
+  - `controllers/authControllers.ts` → Implements `registerController` and a placeholder `sendOTP`.
+  - `routes/authRoute.ts` → Mock routes for `register`, `login`, etc.
+- **models/** → Holds data models.
+  - `user.model.ts` → Defines `UserDataType` interface for user schema.
+- **types/** → Centralized TypeScript types.
+  - `express.ts` → Exports `ExpressRequest` and `ExpressResponse`.
+  - `models/` → Interfaces for data models.
+- **utils/** → Helper functions for controllers.
+  - `controllerCatchingError.ts` → Unified error handling for controllers.
+  - `controllerResponse.ts` → Standardized JSON response format.
+  - `PasswordFunctionalities.ts` → Password hashing and verification with bcrypt.
+  - `sendMail.ts` → Email sending utility using Nodemailer.
 
-The goal is to keep the server organized by responsibility:
+---
 
-* **`server.ts`** → Server initialization
-* **`routesRegistry.ts`** → Route registration
-* **`settings.ts`** → Application configuration
+## 🛠 Implemented Functionalities
+- **Error Handling**  
+  - `catchError` utility ensures consistent error logging and response.
+- **Controller Response**  
+  - `controllerResponse` provides a unified JSON response structure.
+- **Password Security**  
+  - `hashPassword` and `VerifyPassword` functions for secure password storage and login verification.
+- **Email Sending**  
+  - `sendMail` function to send emails with subject, text, and HTML support.
+- **Auth Controller (Partial)**  
+  - `registerController` implemented with validation, password hashing, and user creation.
+  - `sendOTP` placeholder added for future email verification.
 
-This separation provides a clean foundation for the MVP and makes the backend easier to maintain and extend as new features and data sources are added.
+---
+
+## 🚧 Work in Progress
+- Authentication flow is **half implemented**:
+  - Registration is functional.
+  - OTP sending and login routes are placeholders.
+- Full auth (login, OTP verification, token handling) will be completed in the next commit.
+
+---
+
+## ✅ Summary
+This commit sets up:
+- Config files for DB and mail.
+- Core project folders (endpoints, models, types, utils).
+- Utilities for error handling, responses, password hashing, and email sending.
+- Initial auth controller with registration logic.
+
+Next commit will finalize the **authentication system** (login, OTP, token management).
