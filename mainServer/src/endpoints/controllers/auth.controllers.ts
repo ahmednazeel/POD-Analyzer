@@ -3,7 +3,7 @@ import type { ExpressRequest, ExpressResponse } from "../../types/express.js"
 import { catchError } from "../../utils/controllerCatchingError.js";
 import { controllerResponse } from "../../utils/controllerResponse.js"
 import { OTP_Functionalities } from "../../utils/OTPFunctionalities.js";
-import { hashPassword } from "../../utils/PasswordFunctionalities.js";
+import { hashPassword, verifyPassword } from "../../utils/PasswordFunctionalities.js";
 import { sendMail } from "../../utils/sendMail.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/tokens.js";
 import jwt from "jsonwebtoken";
@@ -103,22 +103,19 @@ export const refreshTokenController = async (req: ExpressRequest, res: ExpressRe
 export const loginController = async (req: ExpressRequest, res: ExpressResponse) => {
     try {
         const { email, password } = req.body;
-        if (!email || !password) {
-        return controllerResponse(res, "Email & Password Are Required", 400, false);
-        }
+        if (!email || !password) return controllerResponse(res, "Email & Password Are Required", 400, false);
+        
 
         const user = await User.findOne({ email });
-        if (!user) {
-        return controllerResponse(res, "User not found", 404, false);
-        }
+        if (!user) return controllerResponse(res, "User not found", 404, false);
+        
 
-        const isPasswordValid = await VerifyPassword(password, user.password);
-        if (!isPasswordValid) {
-        return controllerResponse(res, "Invalid password", 401, false);
-        }
+        const isPasswordValid = await verifyPassword(password, user.password);
+        if (!isPasswordValid) return controllerResponse(res, "Invalid password", 401, false);
+        
 
         const accessToken = generateAccessToken(user._id.toString(), user.role || "USER");
-        const refreshToken = generateRefreshToken(user._id.toString());
+        const refreshToken = generateRefreshToken(user._id.toString(), user.role);
 
         // Save refresh token in DB
         user.refreshToken = refreshToken;
@@ -126,9 +123,9 @@ export const loginController = async (req: ExpressRequest, res: ExpressResponse)
 
         // Send refresh token in HttpOnly cookie
         res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
         });
 
         return controllerResponse(res, "Login successful", 200, true, { accessToken });
