@@ -8,7 +8,8 @@ const UserSchema = new Schema<UserDataType>({
     otp:{type:String },
     otpExpiryDate: { type: Date }, 
     role:{type:String, enum:["USER", "ADMIN"]},
-    refreshToken:{type:String,}
+    refreshToken:{type:String,},
+    plan:{type:String, enum:["NONE","BASIC"]}
 })
 
 export const User = mongoose.model<UserDataType>("User", UserSchema)

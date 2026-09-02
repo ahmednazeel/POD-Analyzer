@@ -17,7 +17,7 @@ export const registerController = async(req:ExpressRequest, res:ExpressResponse)
 
         const {otp, otpExpiryDate} = OTP_Functionalities();
         
-        const newUser = new User({username, email, password: hashedPassword, otp, otpExpiryDate});
+        const newUser = new User({username, email, password: hashedPassword, otp, otpExpiryDate, role:"USER", plan:"NONE"});
         
         await newUser.save();
         
@@ -67,12 +67,12 @@ export const VerifyOTP_Registration_Process = async(req:ExpressRequest, res:Expr
 
         const {OTP_Verification} = OTP_Functionalities();
 
-        const {success, status, message} = OTP_Verification(otp, user.otp , user.otpExpiryDate )
+        const {success, status, message} = OTP_Verification(otp, user?.otp as string , user?.otpExpiryDate as Date )
 
         if(!success) return controllerResponse(res, message, status, success)
 
         const accessToken = generateAccessToken(user._id.toString(), "USER");
-        const refreshToken = generateRefreshToken(user._id.toString(), "USER")
+        const refreshToken = generateRefreshToken(user._id.toString())
         
         res.cookie("refreshToken", refreshToken, {
             httpOnly:true,
@@ -90,7 +90,11 @@ export const refreshTokenController = async (req: ExpressRequest, res: ExpressRe
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) return controllerResponse(res, "No refresh token provided", 401, false);
 
-        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as { id: string };
+        
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, (err:unknown, decoded:unknown) => {
+            if(err) return controllerResponse(res, "RefreshToken EXpired, Please Log In Again For Your Security",401,false);
+            return decoded
+        }) as { id: string };
 
         const newAccessToken = generateAccessToken(decoded.id, "USER");
 

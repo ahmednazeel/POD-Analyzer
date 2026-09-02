@@ -10,10 +10,15 @@ const authorizedTo = (roles:string[] =[]) => {
         const token = authHeader.split(" ")[1];
 
         try{
-            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY) as {id:string, role:string};
+            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY,(err:unknown, decoded:unknown)=>{
+                if(err) {
+                    if (err.name ==="TokenExpiredError") return controllerResponse(res,"AccessToken Expired", 401, false);
+                    return controllerResponse(res,"Invalid AccessToken", 401, false);
+                }
+            }) as {id:string, role:string};
             if(roles.length && !roles.includes(decoded.role)) return controllerResponse(res, "Forbidden: Insufficient Role",403, false);
             
-            req.user= decoded;
+            req.user = decoded;
             
             next()
             

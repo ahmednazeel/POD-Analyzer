@@ -22,7 +22,7 @@ export const OTP_Functionalities = () => {
 
     const otpExpiryDate = getExpiryDate();
 
-    const OTP_Verification = (incoming:string, stored:string, expiryDate:Date): OTPVerificationResult => {
+    const OTP_Verification = (incoming:string, stored:string , expiryDate:Date): OTPVerificationResult => {
         const now = new Date();
         if(now > expiryDate) return {success:false, status:410, message:"OTP has expired"};
 
