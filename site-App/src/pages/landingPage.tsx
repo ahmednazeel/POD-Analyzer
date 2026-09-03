@@ -4,7 +4,7 @@ import Footer from "../components/landingPage/footer";
 import Hero from "../components/landingPage/hero";
 import HowItWorks from "../components/landingPage/howItWorks";
 import Navbar from "../components/landingPage/navbar"
-// import OpportunityPreview from "../components/landingPage/opportunityPreview";
+import OpportunityPreview from "../components/landingPage/opportunityPreview";
 import Problem from "../components/landingPage/problem";
 import Testimonial from "../components/landingPage/testimonial";
 const LandingPage = () => {
@@ -17,7 +17,7 @@ const LandingPage = () => {
                 <Problem/>
                 <Features/>
                 <HowItWorks/>
-                {/* <OpportunityPreview/> */}
+                <OpportunityPreview/>
                 <Testimonial/>
                 <CTA/>
             </main>

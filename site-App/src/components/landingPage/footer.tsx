@@ -7,9 +7,8 @@ const Footer = () => {
 
         <div className="md:col-span-2">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
-              📈
-            </div>
+            <img src='/img/logo.png' className='rounded-full w-[80px] h-[80px] border border-[#eee]'/>
+
 
             <div className="leading-tight">
               <p className="text-sm font-bold text-slate-900">

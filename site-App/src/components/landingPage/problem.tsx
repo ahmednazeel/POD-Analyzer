@@ -56,9 +56,21 @@ const Problem = () => {
             const Icon = problem.icon;
 
             return (
-              <div key={problem.title} className="text-center">
+              <div 
+                key={problem.title} 
+                className="
+                    text-center hover:shadow-lg p-3 rounded-md hover:bg-white
+                    border border-[#eee] transition-shadow duration-300
+                  "
+                >
 
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-emerald-600 shadow-sm ring-1 ring-slate-100">
+                <div 
+                  className="
+                    mx-auto flex h-12 w-12 items-center justify-center
+                    rounded-2xl bg-white text-emerald-600 shadow-sm
+                    ring-1 ring-slate-100 
+                  "
+                >
                   <Icon size={21} />
                 </div>
 

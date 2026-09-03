@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 import { Menu, X } from "lucide-react";
+import { NavLink } from 'react-router';
 const Navbar = () => {
-        const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     return (
         <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur-md">
             <div className="mx-auto flex h-18 max-w-7xl items-center justify-between p-6 lg:px-8">
                 
                 {/* Logo */}
                 <a href="#" className="flex items-center gap-2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-50">
-                        <img src='/logo64.png'/>
-                    </div>
-
+                    <img src='/img/logo.png' className='rounded-full w-[70px] h-[70px] border border-[#eee]'/>
                     <div className="leading-tight">
                         <p className="text-lg font-bold text-slate-900">
-                        Podify
+                            Podify
                         </p>
                     </div>
                 </a>
@@ -52,9 +50,13 @@ const Navbar = () => {
 
                 {/* Desktop Actions */}
                 <div className="hidden items-center gap-3 md:flex">
-                <button className="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+                <NavLink 
+                    className="flex-1 px-7 rounded-xl border border-slate-200 py-2.5"
+                    to={'/login'}
+                >
                     Log in
-                </button>
+                </NavLink>
+
 
                 <button className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
                     Get Started
@@ -80,13 +82,16 @@ const Navbar = () => {
                     <a href="#faq">FAQ</a>
 
                     <div className="mt-3 flex gap-3">
-                    <button className="flex-1 rounded-xl border border-slate-200 py-3">
-                        Log in
-                    </button>
+                        <NavLink 
+                            className="flex-1 rounded-xl border border-slate-200 py-3"
+                            to={'/login'}
+                        >
+                            Log in
+                        </NavLink>
 
-                    <button className="flex-1 rounded-xl bg-emerald-600 py-3 font-semibold text-white">
-                        Get Started
-                    </button>
+                        <button className="flex-1 rounded-xl bg-emerald-600 py-3 font-semibold text-white">
+                            Get Started
+                        </button>
                     </div>
                 </nav>
                 </div>
